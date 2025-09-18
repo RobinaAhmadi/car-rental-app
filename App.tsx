@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AuthProvider } from "./AuthContext";
+import AuthScreen from "./AuthScreen";
+import CarList from "./CarList";
+import CarDetails from "./CarDetails";
+import BookingConfirmation from "./BookingConfirmation";
+
+export type RootStackParamList = {
+  Auth: undefined;
+  CarList: undefined;
+  CarDetails: { car: { id: number; make: string; model: string; year: number } };
+  BookingConfirmation: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Auth">
+          <Stack.Screen name="Auth" component={AuthScreen} />
+          <Stack.Screen name="CarList" component={CarList} options={{ title: "Available Cars" }} />
+          <Stack.Screen name="CarDetails" component={CarDetails} options={{ title: "Car Details" }} />
+          <Stack.Screen name="BookingConfirmation" component={BookingConfirmation} options={{ title: "Booking" }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
