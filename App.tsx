@@ -2,10 +2,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthProvider } from "./AuthContext";
 import AuthScreen from "./AuthScreen";
-import CarList from "./CarList";
+//import CarList from "./CarList";
 import CarDetails from "./CarDetails";
 import BookingConfirmation from "./BookingConfirmation";
-
+import CarCardPage from "./CarCardPage";
 export type RootStackParamList = {
   Auth: undefined;
   CarList: undefined;
@@ -21,7 +21,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Auth">
           <Stack.Screen name="Auth" component={AuthScreen} />
-          <Stack.Screen name="CarList" component={CarList} options={{ title: "Available Cars" }} />
+          <Stack.Screen name="CarList" component={CarCardPage} options={{ title: "Available Cars" }} />
           <Stack.Screen name="CarDetails" component={CarDetails} options={{ title: "Car Details" }} />
           <Stack.Screen name="BookingConfirmation" component={BookingConfirmation} options={{ title: "Booking" }} />
         </Stack.Navigator>
