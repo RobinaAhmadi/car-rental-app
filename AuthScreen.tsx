@@ -1,38 +1,36 @@
-import { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { useAuth } from "./AuthContext";
+// AuthScreen.tsx
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "./App";
+import LoginSignupGuest from "./LoginSignupGuest";
+
+type Nav = NativeStackNavigationProp<RootStackParamList, "Auth">;
 
 export default function AuthScreen() {
-  const { user, login, logout } = useAuth();
-  const [username, setUsername] = useState("");
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<Nav>();
+  const [loading, setLoading] = useState(false);
+
+  const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
 
   return (
-    <View style={styles.container}>
-      {user ? (
-        <>
-          <Text style={styles.text}>Logged in as: {user}</Text>
-          <Button title="Go to Cars" onPress={() => navigation.navigate("CarList")} />
-          <Button title="Logout" onPress={logout} />
-        </>
-      ) : (
-        <>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter username"
-            value={username}
-            onChangeText={setUsername}
-          />
-          <Button title="Login" onPress={() => login(username)} />
-        </>
-      )}
-    </View>
+      <LoginSignupGuest
+          brandName="CarRental"
+          subtitle="Your journey starts here"
+          isLoading={loading}
+          onLogin={async ({ email, password }) => {
+            setLoading(true);
+            await delay(400);
+            setLoading(false);
+            navigation.navigate("CarList"); // brug navigate (så back virker)
+          }}
+          onSignup={async (data) => {
+            setLoading(true);
+            await delay(600);
+            setLoading(false);
+            navigation.navigate("CarList");
+          }}
+          onContinueAsGuest={() => navigation.navigate("CarList")}
+      />
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center", padding: 20 },
-  text: { fontSize: 18, marginBottom: 10 },
-  input: { borderWidth: 1, width: "80%", padding: 8, marginBottom: 10 },
-});
