@@ -16,7 +16,7 @@ Each **screen** or **component** has its own folder, containing:
 ---
 
 ## 📁 Folder Structure
-
+```
 src/
 │
 ├── components/ # Reusable UI components
@@ -61,7 +61,7 @@ src/
 ├── utils/ # Utility functions/helpers
 │
 └── App.tsx # Main entry
-
+```
 
 
 ---
