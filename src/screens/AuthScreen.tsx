@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "./App";
-import LoginSignupGuest from "./LoginSignupGuest";
+import { RootStackParamList } from "../App";
+import LoginSignupGuest from "../screens/LoginSignupGuest";
+
 
 type Nav = NativeStackNavigationProp<RootStackParamList, "Auth">;
 

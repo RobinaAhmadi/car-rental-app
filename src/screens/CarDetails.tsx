@@ -1,6 +1,6 @@
 import { View, Text, Button, StyleSheet, Image } from "react-native";
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "./App";
+import { RootStackParamList } from "../App";
 
 type CarDetailsRouteProp = RouteProp<RootStackParamList, "CarDetails">;
 

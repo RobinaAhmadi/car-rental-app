@@ -1,11 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AuthProvider } from "./AuthContext";
-import AuthScreen from "./AuthScreen";
-//import CarList from "./CarList";
-import CarDetails from "./CarDetails";
-import BookingConfirmation from "./BookingConfirmation";
-import CarCardPage from "./CarCardPage";
+import { AuthProvider } from "./context/AuthContext";
+
+import AuthScreen from "./screens/AuthScreen";
+import CarDetails from "./screens/CarDetails";
+import BookingConfirmation from "./screens/BookingConfirmation";
+import CarCardPage from "./screens/CarCardPage";
+
+
 export type RootStackParamList = {
   Auth: undefined;
   CarList: undefined;

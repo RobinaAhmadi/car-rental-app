@@ -1,6 +1,6 @@
 import { View, FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import CarItem from "./CarItem";
-import { useNavigation } from "@react-navigation/native";
+import CarItem from "../components/CarItem";
+import { useNavigation } from "@react-navigatiwon/native";
 
 const carData = [
   {
