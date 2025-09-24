@@ -1,4 +1,4 @@
-// mocks/cars.ts
+
 import { Car } from "../screens/CarCardPage/types";
 
 // images: [exterior, interior]

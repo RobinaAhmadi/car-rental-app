@@ -1,4 +1,4 @@
-// screens/CarDetails/index.tsx
+
 import React from "react";
 import {
     View,
@@ -19,11 +19,11 @@ const { width } = Dimensions.get("window");
 export default function CarDetails({ route }: Props) {
     const navigation = useNavigation<any>();
 
-    // Hvis navigation ikke sender en car, brug første mock som fallback
+
     const passedCar = route?.params?.car;
     const car = passedCar ?? carDetailsMock[0];
 
-    // Safe values (tilfælde hvor felt evt. ikke findes)
+
     const make = car?.make ?? "Unknown";
     const model = car?.model ?? "";
     const year = car?.year ?? "N/A";
@@ -54,7 +54,7 @@ export default function CarDetails({ route }: Props) {
                 )}
 
                 <Text style={styles.title}>
-                     {model}
+                     {model}, || {make}
                 </Text>
 
                 <View style={styles.card}>
