@@ -206,14 +206,19 @@ const CarCardPage: React.FC = () => {
   };
 
   const handleViewDetails = (carId: string) => {
-    const car = cars.find((c) => c.id === carId);
-    if (!car) return;
+    const found = cars.find((c) => c.id === carId);
+    if (!found) return;
+
     navigation.navigate("CarDetails", {
       car: {
-        id: Number(car.id),
-        make: car.name.split(" ")[0],
-        model: car.name,
-        year: 2024,
+        make: found.name.split(" ")[0] ?? found.name,
+        model: found.name,
+        year: found.year ?? 2022,
+        mileage: found.mileage ?? 0,
+        price: found.price,
+        image: found.images?.[0] ?? found.image, // hvis du bruger images[] senere
+        fuel: found.fuel,
+        transmission: found.transmission,
       },
     });
   };
