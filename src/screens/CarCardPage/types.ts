@@ -9,7 +9,6 @@ export type Car = {
   features: string[];
   price: number;
   isAvailable: boolean;
-
   year: number;
   mileage: number;
   fuel: string;

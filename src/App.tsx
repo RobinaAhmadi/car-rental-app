@@ -5,7 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import AuthScreen from "./screens/AuthScreen";
 import CarDetails from "./screens/CarDetails/CarDetailsScreen";
 import BookingConfirmation from "./screens/BookingConfirmation";
-import CarCardPage from "./screens/CarCardPage";
+import CarCardPage from "./screens/CarCardPage/CarListScreen";
 
 
 export type RootStackParamList = {

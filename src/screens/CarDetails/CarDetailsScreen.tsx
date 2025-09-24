@@ -1,20 +1,23 @@
-// src/screens/CarDetailsScreen/index.tsx
+// src/screens/CarDetails/CarDetailsScreen.tsx
 import React from "react";
 import { View, ScrollView, TouchableOpacity, Dimensions, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/types";
 import { styles } from "./styles";
-import { Props, CarDetails } from "./types";
+import { CarDetails } from "./types";
 import { mockCars } from "../../mocks/cars";
 import CarSpecs from "../../components/CarSpecs/CarSpecsComponent";
 import CarFeatures from "../../components/CarFeatures/CarFeaturesComponent";
 
 const { width } = Dimensions.get("window");
 
-export default function CarDetailsScreen({ route }: Props) {
-    const navigation = useNavigation<any>();
+// Props med navigation og route
+type Props = NativeStackScreenProps<RootStackParamList, "CarDetails">;
 
-    const passedCar = route?.params?.car;
+export default function CarDetailsScreen({ route, navigation }: Props) {
+    const passedCar = route.params.car;
 
+    // Sørg for fallback hvis ingen bil er passed
     const car: CarDetails = passedCar ?? {
         make: mockCars[0].name.split(" ")[0],
         model: mockCars[0].name,
@@ -34,7 +37,7 @@ export default function CarDetailsScreen({ route }: Props) {
                 <CarSpecs car={car} width={width} />
 
                 {/* Features */}
-                <CarFeatures features={car.features ?? []} />
+                <CarFeatures features={car.features} />
             </ScrollView>
 
             {/* Book-knap */}
