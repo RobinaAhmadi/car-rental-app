@@ -47,11 +47,7 @@ export default function CarCard({ car, isFavorite, onToggleFavorite, onViewDetai
                 </View>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: 6 }}>
-                    {car.features.map(f => (
-                        <View key={f} style={styles.featureChip}>
-                            <Text style={styles.featureText}>{f}</Text>
-                        </View>
-                    ))}
+
                 </ScrollView>
 
                 <View style={styles.rowBetween}>
