@@ -54,7 +54,7 @@ export default function CarDetails({ route }: Props) {
                 )}
 
                 <Text style={styles.title}>
-                     {model}, || {make}
+                     {model}
                 </Text>
 
                 <View style={styles.card}>
