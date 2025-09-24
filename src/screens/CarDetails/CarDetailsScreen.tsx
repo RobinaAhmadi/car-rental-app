@@ -9,6 +9,7 @@ import { mockCars } from "../../mocks/cars";
 import CarSpecs from "../../components/CarSpecs/CarSpecsComponent";
 import CarFeatures from "../../components/CarFeatures/CarFeaturesComponent";
 
+
 const { width } = Dimensions.get("window");
 
 // Props med navigation og route
