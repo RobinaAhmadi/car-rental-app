@@ -1,3 +1,4 @@
+// src/screens/CarCardPage/types.ts
 export type Car = {
   id: string;
   name: string;
@@ -8,7 +9,18 @@ export type Car = {
   features: string[];
   price: number;
   isAvailable: boolean;
+
+  year: number;
+  mileage: number;
+  fuel: string;
+  transmission: string;
+
+
+  make: string;
+  model: string;
 };
+
+
 
 export type CarCardProps = {
   car: Car;

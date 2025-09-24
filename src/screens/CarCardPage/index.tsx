@@ -79,11 +79,7 @@ const CarCard: React.FC<CarCardProps> = ({
         showsHorizontalScrollIndicator={false}
         style={{ marginVertical: 6 }}
       >
-        {car.features.map((f) => (
-          <View key={f} style={styles.featureChip}>
-            <Text style={styles.featureText}>{f}</Text>
-          </View>
-        ))}
+
       </ScrollView>
 
       <View style={styles.rowBetween}>
@@ -216,9 +212,10 @@ const CarCardPage: React.FC = () => {
         year: found.year ?? 2022,
         mileage: found.mileage ?? 0,
         price: found.price,
-        image: found.images?.[0] ?? found.image, // hvis du bruger images[] senere
+        image: found.image, // hvis du bruger images[] senere
         fuel: found.fuel,
         transmission: found.transmission,
+        features: found.features ?? []
       },
     });
   };

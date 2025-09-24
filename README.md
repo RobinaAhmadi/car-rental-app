@@ -9,7 +9,7 @@ We follow a **modular folder architecture** to keep the code clean, scalable, an
 
 Each **screen** or **component** has its own folder, containing:  
 
-- `index.tsx` → logic + JSX  
+- `CarDetailsScreen.tsx` → logic + JSX  
 - `styles.ts` → styles (StyleSheet)  
 - `types.ts` → TypeScript types/interfaces (only when needed)  
 
@@ -21,31 +21,31 @@ src/
 │
 ├── components/ # Reusable UI components
 │ └── CarItem/
-│ ├── index.tsx
+│ ├── CarDetailsScreen.tsx
 │ ├── styles.ts
 │ └── types.ts
 │
 ├── screens/ # App screens
 │ ├── AuthScreen/
-│ │ ├── index.tsx
+│ │ ├── CarDetailsScreen.tsx
 │ │ └── types.ts
 │ ├── BookingConfirmation/
-│ │ ├── index.tsx
+│ │ ├── CarDetailsScreen.tsx
 │ │ └── styles.ts
 │ ├── CarCardPage/
-│ │ ├── index.tsx
+│ │ ├── CarDetailsScreen.tsx
 │ │ ├── styles.ts
 │ │ └── types.ts
 │ ├── CarDetails/
-│ │ ├── index.tsx
+│ │ ├── CarDetailsScreen.tsx
 │ │ ├── styles.ts
 │ │ └── types.ts
 │ ├── CarList/
-│ │ ├── index.tsx
+│ │ ├── CarDetailsScreen.tsx
 │ │ ├── styles.ts
 │ │ └── types.ts
 │ └── LoginSignupGuest/
-│ ├── index.tsx
+│ ├── CarDetailsScreen.tsx
 │ ├── styles.ts
 │ └── types.ts
 │
@@ -71,13 +71,13 @@ src/
 ### 🆕 Creating a new screen
 - Create a new folder inside `screens/`
 - Always split into:
-  - `index.tsx` (logic + JSX)
+  - `CarDetailsScreen.tsx` (logic + JSX)
   - `styles.ts` (StyleSheet)
   - `types.ts` (only if props are needed)
 
 ### 🧩 Creating a new component
 - Create a folder inside `components/`
-- Same rule: `index.tsx`, `styles.ts`, `types.ts`
+- Same rule: `CarDetailsScreen.tsx`, `styles.ts`, `types.ts`
 
 ### 📑 Mock data
 - Keep all mock/fake data inside `mocks/`

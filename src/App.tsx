@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthProvider } from "./context/AuthContext";
 
 import AuthScreen from "./screens/AuthScreen";
-import CarDetails from "./screens/CarDetails";
+import CarDetails from "./screens/CarDetails/CarDetailsScreen";
 import BookingConfirmation from "./screens/BookingConfirmation";
 import CarCardPage from "./screens/CarCardPage";
 
