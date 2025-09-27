@@ -10,9 +10,9 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
-import { CarDetails, CarFeature } from "./types";
+import { CarFeature } from "./types";
 import { styles, rowStyles, IMAGE_W } from "./styles";
 import { api } from "../../services/api";
 
@@ -22,7 +22,7 @@ export default function CarDetailsScreen() {
   const route = useRoute();
   const { carId } = route.params as RouteParams;
 
-  const [car, setCar] = useState<CarDetails | null>(null);
+  const [car, setCar] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
@@ -32,7 +32,24 @@ export default function CarDetailsScreen() {
     const fetchCar = async () => {
       try {
         const data = await api.getCarById(carId);
-        setCar(data);
+
+        // Normaliza features
+        const normalizedFeatures = typeof data.features === "string"
+          ? data.features.split(",").map((f: string) => f.trim())
+          : [];
+
+        setCar({
+          ...data,
+          images: [data.image],
+          features: normalizedFeatures,
+          specs: {
+            fuel: data.fuel,
+            transmission: data.transmission,
+            doors: 4,
+            luggage: 2,
+            horsepower: 150,
+          },
+        });
       } catch (err: any) {
         console.error("Failed to load car details:", err.message);
       } finally {
@@ -42,6 +59,15 @@ export default function CarDetailsScreen() {
     fetchCar();
   }, [carId]);
 
+  // 🔒 sempre chamado, independente de loading ou car
+  const dots = useMemo(() => {
+    const imgs = car?.images || [];
+    return imgs.map((_: string, i: number) => (
+      <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
+    ));
+  }, [car?.images, index]);
+
+  // Agora os ifs não quebram a ordem dos hooks
   if (loading) {
     return (
       <SafeAreaView style={styles.safe}>
@@ -61,7 +87,7 @@ export default function CarDetailsScreen() {
   }
 
   const canGoLeft = index > 0;
-  const canGoRight = index < car.images.length - 1;
+  const canGoRight = car.images && index < car.images.length - 1;
 
   const goLeft = () => {
     if (!canGoLeft) return;
@@ -87,33 +113,13 @@ export default function CarDetailsScreen() {
 
   const FeatureIcon = ({ f }: { f: CarFeature }) => {
     switch (f) {
-      case "Seats":
-        return <Ionicons name="people-outline" size={18} />;
-      case "Hybrid":
-        return <Ionicons name="flash-outline" size={18} />;
-      case "AirCondition":
-        return <Ionicons name="snow-outline" size={18} />;
-      case "CarPlay":
-        return <MaterialCommunityIcons name="apple" size={18} />;
-      case "Bluetooth":
-        return <Ionicons name="bluetooth-outline" size={18} />;
-      case "Radio":
-        return <Ionicons name="musical-notes-outline" size={18} />;
-      default:
-        return null;
+      case "AC": return <Ionicons name="snow-outline" size={18} />;
+      case "Bluetooth": return <Ionicons name="bluetooth-outline" size={18} />;
+      case "GPS": return <Ionicons name="navigate-outline" size={18} />;
+      case "Sunroof": return <Ionicons name="sunny-outline" size={18} />;
+      default: return null;
     }
   };
-
-  const featureLabel = (f: CarFeature) =>
-    f === "AirCondition" ? "Aircondition" : f === "Seats" ? "5 Seats" : f;
-
-  const dots = useMemo(
-    () =>
-      car.images.map((_, i) => (
-        <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
-      )),
-    [car.images, index]
-  );
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -123,6 +129,7 @@ export default function CarDetailsScreen() {
           <Ionicons name="car-outline" size={20} />
         </View>
 
+        {/* Imagens */}
         <View style={styles.carouselWrapper}>
           <Pressable
             onPress={goLeft}
@@ -160,23 +167,29 @@ export default function CarDetailsScreen() {
 
         <View style={styles.dotsRow}>{dots}</View>
 
+        {/* Info */}
         <View style={styles.titleRow}>
           <Text style={styles.title}>{car.name}</Text>
           <Text style={styles.price}>
-            ${car.pricePerDay}
+            ${car.price}
             <Text style={styles.per}>/Day</Text>
           </Text>
         </View>
 
         <View style={styles.features}>
-          {car.features.map((f, i) => (
-            <View key={i} style={styles.featureChip}>
-              <FeatureIcon f={f} />
-              <Text style={styles.featureText}> {featureLabel(f)}</Text>
-            </View>
-          ))}
+          {car.features.length > 0 ? (
+            car.features.map((f: string, i: number) => (
+              <View key={i} style={styles.featureChip}>
+                <FeatureIcon f={f as CarFeature} />
+                <Text style={styles.featureText}> {f}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={{ color: "#666" }}>No features listed</Text>
+          )}
         </View>
 
+        {/* Specs */}
         <Pressable onPress={() => setExpanded((s) => !s)} style={styles.detailsBtn}>
           <Text style={styles.detailsBtnText}>View More Details</Text>
         </Pressable>
@@ -184,13 +197,12 @@ export default function CarDetailsScreen() {
           <Ionicons name={expanded ? "chevron-up" : "chevron-down"} size={18} />
         </Pressable>
 
-        {expanded && (
+        {expanded && car.specs && (
           <View style={styles.detailsCard}>
             <Row label="Transmission" value={car.specs.transmission} />
             <Row label="Fuel" value={car.specs.fuel} />
             <Row label="Doors" value={`${car.specs.doors}`} />
             <Row label="Luggage" value={`${car.specs.luggage} suitcases`} />
-            {car.specs.mpg && <Row label="MPG" value={`${car.specs.mpg}`} />}
             {car.specs.horsepower && (
               <Row label="Horsepower" value={`${car.specs.horsepower} hp`} />
             )}
