@@ -1,26 +1,24 @@
-import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../navigation/types";
-
-export type CarDetailsRouteProp = RouteProp<RootStackParamList, "CarDetails">;
+// screens/CarDetails/types.ts
+export type CarFeature =
+    | "Seats"
+    | "Hybrid"
+    | "AirCondition"
+    | "CarPlay"
+    | "Bluetooth"
+    | "Radio";
 
 export type CarDetails = {
-  make: string;
-  model: string;
-  year: number;
-  mileage: number;
-  transmission: string;
-  fuel: string;
-  image: string;
-  features: string[];
-  price: number;
-};
-
-export type Props = {
-  route: {
-    params: {
-      car?: CarDetails;
-    };
+  id: string;
+  name: string;
+  pricePerDay: number;
+  images: string[];
+  features: CarFeature[];
+  specs: {
+    transmission: "Automatic" | "Manual";
+    fuel: "Petrol" | "Diesel" | "Hybrid" | "Electric";
+    doors: number;
+    luggage: number;
+    mpg?: number;
+    horsepower?: number;
   };
 };
-
-
