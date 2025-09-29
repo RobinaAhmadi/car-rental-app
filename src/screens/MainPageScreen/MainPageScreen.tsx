@@ -2,7 +2,8 @@ import React from 'react';
 import { View, SafeAreaView, StyleSheet, FlatList } from 'react-native';
 import SearchBar from "../../components/SearchComponent/SearchBar";
 import Filters from '../../components/FilterComponent/Filters';
-import LocationCard from '../../components/CarInfoComponent/CarInformation';
+import LocationCard from '../../components/CarCardComponent/CarCard';
+import { styles } from './styles';
 
 export default function MainScreen() {
     return (
@@ -20,10 +21,7 @@ export default function MainScreen() {
 }
 
 
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#f5f5f7' },
-    list: { padding: 16, paddingTop: 8 },
-});
+{/*need douglas data */}
 
 const DATA = [ //mock
     {
