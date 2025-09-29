@@ -7,7 +7,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native"; // valgfrit, til at læse carId
 import { CarDetails, CarFeature } from "./types";
 import { styles, rowStyles, IMAGE_W } from "./styles";
-import { carDetailsMock, getCarById } from "../../mocks/CarDetails";
+
 
 // Hvis du ikke har typed navigation endnu, så brug dette lille helper-type:
 type RouteParams = { carId?: string } | undefined;
