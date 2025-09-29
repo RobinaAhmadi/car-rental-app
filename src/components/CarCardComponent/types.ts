@@ -1,11 +1,12 @@
-import { ImageSourcePropType } from 'react-native';
+export type ImageInput = string | number;
 
-export type CarCardProps = {
-    id?: string;
+export interface CarCardProps {
+    id: string;
     title: string;
     subtitle?: string;
     rating?: string;
     distance?: string;
-    price?: string;
-    image: ImageSourcePropType; // bedre end "any"
-};
+    price: string;
+    image: ImageInput;
+    onSelect?: (id: string) => void;
+}

@@ -1,31 +1,74 @@
-import React, { useMemo, useRef, useState } from "react";
+// screens/CarDetails/CarDetailsScreen.tsx
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
     SafeAreaView, View, Text, Image, Pressable, FlatList,
-    ListRenderItemInfo, ScrollView
+    ListRenderItemInfo, ScrollView, ActivityIndicator, Platform, Alert
 } from "react-native";
+import axios from "axios";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useRoute } from "@react-navigation/native"; // valgfrit, til at læse carId
+import { useRoute } from "@react-navigation/native";
 import { CarDetails, CarFeature } from "./types";
 import { styles, rowStyles, IMAGE_W } from "./styles";
 
+type RouteParams = { carId: string };
 
-// Hvis du ikke har typed navigation endnu, så brug dette lille helper-type:
-type RouteParams = { carId?: string } | undefined;
+const API_BASE =
+    Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
+
+// --- matches your backend row shape ---
+type CarRow = {
+    id: number;
+    name: string;
+    type: string;
+    image: string;
+    rating: number;
+    location: string;
+    price: number;
+    transmission: string;
+    fuel?: string;
+};
+
+// --- map DB row -> your UI model ---
+function mapRowToDetails(row: CarRow): CarDetails {
+    return {
+        id: String(row.id),
+        name: row.name,
+        pricePerDay: row.price,
+        images: [row.image], // turn single URL into array for carousel
+        features: ["Seats","Bluetooth","Hybrid","Radio","CarPlay","AirCondition"] as CarFeature[],
+        specs: {
+            transmission: (row.transmission || "Automatic") as CarDetails["specs"]["transmission"],
+            fuel: (row.fuel || "Petrol") as CarDetails["specs"]["fuel"],
+            doors: 4,
+            luggage: 2,
+        },
+    };
+}
 
 export default function CarDetailsScreen() {
-    // prøv at hente carId fra navigation params (hvis du senere navigerer hertil)
-    const route = useRoute();
-    const params = (route.params as RouteParams) ?? undefined;
-    const initialCar: CarDetails =
-        (params?.carId && getCarById(params.carId)) || carDetailsMock[0];
+    const { params } = useRoute() as { params: RouteParams };
 
-    const [car] = useState<CarDetails>(initialCar);
+    const [car, setCar] = useState<CarDetails | null>(null);
+    const [loading, setLoading] = useState(true);
     const [index, setIndex] = useState(0);
     const [expanded, setExpanded] = useState(false);
     const listRef = useRef<FlatList<string>>(null);
 
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await axios.get<CarRow>(`${API_BASE}/cars/${params.carId}`);
+                setCar(mapRowToDetails(res.data));
+            } catch (e: any) {
+                Alert.alert("Error", e?.message ?? "Failed to load car");
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [params.carId]);
+
     const canGoLeft = index > 0;
-    const canGoRight = index < car.images.length - 1;
+    const canGoRight = (car?.images.length ?? 0) - 1 > index;
 
     const goLeft = () => {
         if (!canGoLeft) return;
@@ -33,18 +76,15 @@ export default function CarDetailsScreen() {
         setIndex(next);
         listRef.current?.scrollToIndex({ index: next, animated: true });
     };
-
     const goRight = () => {
         if (!canGoRight) return;
         const next = index + 1;
         setIndex(next);
         listRef.current?.scrollToIndex({ index: next, animated: true });
     };
-
     const onScrollToIndexFailed = () => {
         listRef.current?.scrollToOffset({ offset: index * IMAGE_W, animated: true });
     };
-
     const renderImage = ({ item }: ListRenderItemInfo<string>) => (
         <Image source={{ uri: item }} style={styles.image} resizeMode="cover" />
     );
@@ -59,17 +99,23 @@ export default function CarDetailsScreen() {
             case "Radio": return <Ionicons name="musical-notes-outline" size={18} />;
         }
     };
-
     const featureLabel = (f: CarFeature) =>
         f === "AirCondition" ? "Aircondition" : f === "Seats" ? "5 Seats" : f;
 
     const dots = useMemo(
-        () =>
-            car.images.map((_, i) => (
-                <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
-            )),
-        [car.images, index]
+        () => (car?.images ?? []).map((_, i) => (
+            <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
+        )),
+        [car?.images, index]
     );
+
+    if (loading || !car) {
+        return (
+            <SafeAreaView style={styles.safe}>
+                <ActivityIndicator style={{ marginTop: 24 }} />
+            </SafeAreaView>
+        );
+    }
 
     return (
         <SafeAreaView style={styles.safe}>
@@ -112,7 +158,9 @@ export default function CarDetailsScreen() {
 
                 <View style={styles.titleRow}>
                     <Text style={styles.title}>{car.name}</Text>
-                    <Text style={styles.price}>${car.pricePerDay}<Text style={styles.per}>/Day</Text></Text>
+                    <Text style={styles.price}>
+                        ${car.pricePerDay}<Text style={styles.per}>/Day</Text>
+                    </Text>
                 </View>
 
                 <View style={styles.features}>
@@ -124,10 +172,10 @@ export default function CarDetailsScreen() {
                     ))}
                 </View>
 
-                <Pressable onPress={() => setExpanded((s) => !s)} style={styles.detailsBtn}>
+                <Pressable onPress={() => setExpanded(s => !s)} style={styles.detailsBtn}>
                     <Text style={styles.detailsBtnText}>View More Details</Text>
                 </Pressable>
-                <Pressable onPress={() => setExpanded((s) => !s)} style={styles.chevron}>
+                <Pressable onPress={() => setExpanded(s => !s)} style={styles.chevron}>
                     <Ionicons name={expanded ? "chevron-up" : "chevron-down"} size={18} />
                 </Pressable>
 
