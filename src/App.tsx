@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import CarDetailsScreen from "./screens/CarDetails/CarDetailsScreen";
 import MainPageScreen from "./screens/MainPageScreen/MainPageScreen";
 import {RootStackParamList} from "./navigation/types";
-import HeaderActions from "./components/HeaderActions";
+import HeaderActions from "./components/HeaderComponent/HeaderActions";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
