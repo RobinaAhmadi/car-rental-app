@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-type Props = {
-  current: number; // 1 = Shipping, 2 = Payment, 3 = Review
-};
+type Props = { current: number };
 
 export default function StepHeader({ current }: Props) {
   const steps = [
@@ -14,34 +13,55 @@ export default function StepHeader({ current }: Props) {
   ];
 
   return (
-    <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 20 }}>
-      {steps.map((s, i) => {
-        const active = current === i + 1;
-        return (
-          <View key={s.label} style={{ alignItems: "center", flex: 1 }}>
-            <Ionicons
-              name={s.icon as any}
-              size={26}
-              color={active ? "#2563EB" : "#9CA3AF"}
-            />
-            <Text style={{ color: active ? "#2563EB" : "#6B7280", fontSize: 12, marginTop: 4 }}>
-              {s.label}
-            </Text>
-            {i < steps.length - 1 && (
-              <View
-                style={{
-                  position: "absolute",
-                  top: 12,
-                  right: -50,
-                  height: 2,
-                  width: 50,
-                  backgroundColor: active ? "#2563EB" : "#E5E7EB",
-                }}
-              />
-            )}
-          </View>
-        );
-      })}
-    </View>
+    <SafeAreaView>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 20,
+          paddingHorizontal: 16,
+        }}
+      >
+        {steps.map((s, i) => {
+          const active = current === i + 1;
+          return (
+            <React.Fragment key={s.label}>
+              {/* Step */}
+              <View style={{ alignItems: "center" }}>
+                <Ionicons
+                  name={s.icon as any}
+                  size={28}
+                  color={active ? "#2563EB" : "#9CA3AF"}
+                />
+                <Text
+                  style={{
+                    fontSize: 13,
+                    marginTop: 6,
+                    color: active ? "#2563EB" : "#6B7280",
+                    fontWeight: active ? "600" : "400",
+                  }}
+                >
+                  {s.label}
+                </Text>
+              </View>
+
+              {/* Connector (only between steps) */}
+              {i < steps.length - 1 && (
+                <View
+                  style={{
+                    width: 60, // controls spacing
+                    height: 2,
+                    marginHorizontal: 12,
+                    backgroundColor: current > i + 1 ? "#2563EB" : "#E5E7EB",
+                    alignSelf: "center", // perfectly centers line
+                  }}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </View>
+    </SafeAreaView>
   );
 }
