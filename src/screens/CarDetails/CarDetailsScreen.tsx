@@ -6,7 +6,12 @@ import {
 } from "react-native";
 import axios from "axios";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, NavigatorScreenParams, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+// 👇 adjust this path to where your BookingStack file lives
+import type { BookingStackParamList } from "../Booking/BookingStack";
+
 import { CarDetails, CarFeature } from "./types";
 import { styles, rowStyles, IMAGE_W } from "./styles";
 
@@ -45,8 +50,19 @@ function mapRowToDetails(row: CarRow): CarDetails {
     };
 }
 
+/** -------- Navigation typing (root that contains BookingStack) --------
+ * If your root navigator registers <Screen name="BookingStack" component={BookingStack} />,
+ * we type it like this so we can navigate with { screen, params }.
+ */
+type RootStackParamList = {
+    BookingStack: NavigatorScreenParams<BookingStackParamList>;
+    // ...other root screens if you have them
+};
+type RootNav = NativeStackNavigationProp<RootStackParamList>;
+
 export default function CarDetailsScreen() {
     const { params } = useRoute() as { params: RouteParams };
+    const navigation = useNavigation<RootNav>();
 
     const [car, setCar] = useState<CarDetails | null>(null);
     const [loading, setLoading] = useState(true);
@@ -172,6 +188,7 @@ export default function CarDetailsScreen() {
                     ))}
                 </View>
 
+                {/* Toggle details */}
                 <Pressable onPress={() => setExpanded(s => !s)} style={styles.detailsBtn}>
                     <Text style={styles.detailsBtnText}>View More Details</Text>
                 </Pressable>
@@ -190,7 +207,16 @@ export default function CarDetailsScreen() {
                     </View>
                 )}
 
-                <Pressable onPress={() => alert(`Booked ${car.name}`)} style={styles.bookBtn}>
+                {/* BOOK: Navigate to BookingStack -> Shipping with the car */}
+                <Pressable
+                    onPress={() =>
+                        navigation.navigate("BookingStack", {
+                            screen: "Shipping",
+                            params: { car },
+                        })
+                    }
+                    style={styles.bookBtn}
+                >
                     <Text style={styles.bookText}>Book</Text>
                 </Pressable>
             </ScrollView>

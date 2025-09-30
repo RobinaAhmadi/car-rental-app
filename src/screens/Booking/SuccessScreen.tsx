@@ -19,7 +19,7 @@ export default function SuccessScreen() {
 
       <TouchableOpacity
         style={[styles.primaryBtn, { marginTop: 20, width: "80%" }]}
-        onPress={() => navigation.navigate("CarList")}
+        onPress={() => navigation.navigate("MainPage")}
       >
         <Text style={styles.primaryBtnText}>Browse Cars</Text>
       </TouchableOpacity>
