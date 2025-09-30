@@ -9,7 +9,6 @@ import { mockCars } from "../../mocks/cars";
 import CarSpecs from "../../components/CarSpecs/CarSpecsComponent";
 import CarFeatures from "../../components/CarFeatures/CarFeaturesComponent";
 
-
 const { width } = Dimensions.get("window");
 
 // Props med navigation og route
@@ -44,7 +43,12 @@ export default function CarDetailsScreen({ route, navigation }: Props) {
             {/* Book-knap */}
             <TouchableOpacity
                 style={styles.bookButton}
-                onPress={() => navigation.navigate("BookingConfirmation")}
+                onPress={() =>
+                    navigation.navigate("BookingStack" as never, {
+                        screen: "Shipping",
+                        params: { car },
+                    } as never)
+                }
             >
                 <Text style={styles.bookButtonText}>Book this Car</Text>
             </TouchableOpacity>
