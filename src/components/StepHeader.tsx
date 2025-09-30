@@ -19,7 +19,7 @@ export default function StepHeader({ current }: Props) {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 20,
+          marginBottom: 24,
           paddingHorizontal: 16,
         }}
       >
@@ -27,16 +27,23 @@ export default function StepHeader({ current }: Props) {
           const active = current === i + 1;
           return (
             <React.Fragment key={s.label}>
-              {/* Step */}
               <View style={{ alignItems: "center" }}>
-                <Ionicons
-                  name={s.icon as any}
-                  size={28}
-                  color={active ? "#2563EB" : "#9CA3AF"}
-                />
+                <View
+                  style={{
+                    backgroundColor: active ? "#2563EB" : "#E5E7EB",
+                    padding: 10,
+                    borderRadius: 50,
+                  }}
+                >
+                  <Ionicons
+                    name={s.icon as any}
+                    size={22}
+                    color={active ? "#fff" : "#6B7280"}
+                  />
+                </View>
                 <Text
                   style={{
-                    fontSize: 13,
+                    fontSize: 12,
                     marginTop: 6,
                     color: active ? "#2563EB" : "#6B7280",
                     fontWeight: active ? "600" : "400",
@@ -45,16 +52,14 @@ export default function StepHeader({ current }: Props) {
                   {s.label}
                 </Text>
               </View>
-
-              {/* Connector (only between steps) */}
               {i < steps.length - 1 && (
                 <View
                   style={{
-                    width: 60, // controls spacing
+                    width: 50,
                     height: 2,
                     marginHorizontal: 12,
                     backgroundColor: current > i + 1 ? "#2563EB" : "#E5E7EB",
-                    alignSelf: "center", // perfectly centers line
+                    alignSelf: "center",
                   }}
                 />
               )}

@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 20 },
 
   // Titles
-  title: { fontSize: 20, fontWeight: "700", marginBottom: 16, color: "#111827" },
+  title: { fontSize: 20, fontWeight: "700", marginBottom: 20, color: "#111827" },
 
   // Inputs
   inputRow: {
@@ -14,11 +14,11 @@ export const styles = StyleSheet.create({
     borderColor: "#E5E7EB",
     borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 14,
+    paddingVertical: 12,
+    marginBottom: 16,
     backgroundColor: "#F9FAFB",
   },
-  inputFlex: { flex: 1, fontSize: 15 },
+  inputFlex: { flex: 1, fontSize: 15, color: "#111827" },
   input: {
     borderWidth: 1,
     borderColor: "#E5E7EB",
@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     marginBottom: 14,
     backgroundColor: "#F9FAFB",
     fontSize: 15,
+    color: "#111827",
   },
 
   // Buttons
@@ -37,7 +38,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 24,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 3,
@@ -51,7 +52,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E5E7EB",
     borderRadius: 12,
-    padding: 14,
+    padding: 16,
     marginVertical: 8,
     backgroundColor: "#fff",
     shadowColor: "#000",

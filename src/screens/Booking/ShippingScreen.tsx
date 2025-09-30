@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { BookingStackParamList } from "./BookingStack";
 import { styles } from "./styles";
@@ -26,37 +34,47 @@ export default function ShippingScreen({ navigation, route }: Props) {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-      <StepHeader current={1} />
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: "#fff" }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+        <StepHeader current={1} />
+        <Text style={styles.title}>Enter Your Details</Text>
 
-      <Text style={styles.title}>Enter Details</Text>
+        {[
+          { key: "fullName", placeholder: "Full Name*", icon: "person-outline" },
+          { key: "phone", placeholder: "Phone Number*", icon: "call-outline" },
+          { key: "email", placeholder: "Email Address", icon: "mail-outline" },
+          { key: "province", placeholder: "Province", icon: "business-outline" },
+          { key: "city", placeholder: "City", icon: "location-outline" },
+          { key: "street", placeholder: "Street Address*", icon: "home-outline" },
+          { key: "postalCode", placeholder: "Postal Code*", icon: "map-outline" },
+        ].map((field) => (
+          <View key={field.key} style={styles.inputRow}>
+            <Ionicons
+              name={field.icon as any}
+              size={20}
+              color="#6B7280"
+              style={{ marginRight: 8 }}
+            />
+            <TextInput
+              placeholder={field.placeholder}
+              style={styles.inputFlex}
+              value={formData[field.key as keyof typeof formData]}
+              onChangeText={(text) => handleChange(field.key, text)}
+              placeholderTextColor="#9CA3AF"
+            />
+          </View>
+        ))}
 
-      {[
-        { key: "fullName", placeholder: "Full Name*", icon: "person-outline" },
-        { key: "phone", placeholder: "Phone Number*", icon: "call-outline" },
-        { key: "email", placeholder: "Email Address", icon: "mail-outline" },
-        { key: "province", placeholder: "Province", icon: "business-outline" },
-        { key: "city", placeholder: "City", icon: "location-outline" },
-        { key: "street", placeholder: "Street Address*", icon: "home-outline" },
-        { key: "postalCode", placeholder: "Postal Code*", icon: "map-outline" },
-      ].map((field) => (
-        <View key={field.key} style={styles.inputRow}>
-          <Ionicons name={field.icon as any} size={20} color="#6B7280" style={{ marginRight: 8 }} />
-          <TextInput
-            placeholder={field.placeholder}
-            style={styles.inputFlex}
-            value={formData[field.key as keyof typeof formData]}
-            onChangeText={(text) => handleChange(field.key, text)}
-          />
-        </View>
-      ))}
-
-      <TouchableOpacity
-        style={styles.primaryBtn}
-        onPress={() => navigation.navigate("Payment", { car, formData })}
-      >
-        <Text style={styles.primaryBtnText}>Continue</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <TouchableOpacity
+          style={styles.primaryBtn}
+          onPress={() => navigation.navigate("Payment", { car, formData })}
+        >
+          <Text style={styles.primaryBtnText}>Continue</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

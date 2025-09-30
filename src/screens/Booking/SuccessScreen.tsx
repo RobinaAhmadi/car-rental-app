@@ -9,10 +9,12 @@ export default function SuccessScreen() {
 
   return (
     <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
-      <Ionicons name="checkmark-circle-outline" size={100} color="#22C55E" />
-      <Text style={[styles.title, { marginTop: 16 }]}>Your car has been booked successfully</Text>
+      <Ionicons name="checkmark-circle" size={100} color="#22C55E" />
+      <Text style={[styles.title, { marginTop: 16, textAlign: "center" }]}>
+        Booking Successful!
+      </Text>
       <Text style={{ marginTop: 10, color: "#555", textAlign: "center", paddingHorizontal: 20 }}>
-        Thank you for choosing us! You can explore more cars or manage your booking anytime.
+        Thank you for booking with us. You can explore more cars or manage your booking anytime.
       </Text>
 
       <TouchableOpacity

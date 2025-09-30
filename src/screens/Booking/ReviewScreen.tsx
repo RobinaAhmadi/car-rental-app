@@ -8,19 +8,18 @@ import StepHeader from "../../components/StepHeader";
 type Props = NativeStackScreenProps<BookingStackParamList, "Review">;
 
 export default function ReviewScreen({ navigation, route }: Props) {
-  const { car, formData, payment } = route.params;
-
-  const total = car.price + 9; // mock insurance
+  const { car, payment } = route.params;
+  const total = car.price + 9;
 
   return (
     <View style={styles.container}>
       <StepHeader current={3} />
-      <Text style={styles.title}>Review Order</Text>
+      <Text style={styles.title}>Review Your Order</Text>
 
       <View style={styles.card}>
         <Image source={{ uri: car.image }} style={{ width: "100%", height: 140, borderRadius: 12 }} />
         <Text style={styles.carTitle}>{car.name}</Text>
-        <Text style={{ color: "#6B7280" }}>Price per day: ${car.price}</Text>
+        <Text style={{ color: "#6B7280", marginTop: 4 }}>Price per day: ${car.price}</Text>
         <Text style={{ color: "#6B7280" }}>Insurance: $9</Text>
       </View>
 
