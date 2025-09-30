@@ -13,11 +13,16 @@ export default function ReviewScreen({ navigation, route }: Props) {
 
   return (
     <View style={styles.container}>
-      <StepHeader current={3} />
+      {/* StepHeader with back button */}
+      <StepHeader current={3} showBack />
+
       <Text style={styles.title}>Review Your Order</Text>
 
       <View style={styles.card}>
-        <Image source={{ uri: car.image }} style={{ width: "100%", height: 140, borderRadius: 12 }} />
+        <Image
+          source={{ uri: car.image }}
+          style={{ width: "100%", height: 140, borderRadius: 12 }}
+        />
         <Text style={styles.carTitle}>{car.name}</Text>
         <Text style={{ color: "#6B7280", marginTop: 4 }}>Price per day: ${car.price}</Text>
         <Text style={{ color: "#6B7280" }}>Insurance: $9</Text>

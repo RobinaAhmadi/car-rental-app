@@ -21,7 +21,9 @@ export default function PaymentScreen({ navigation, route }: Props) {
 
   return (
     <View style={styles.container}>
-      <StepHeader current={2} />
+      {/* StepHeader with back button */}
+      <StepHeader current={2} showBack />
+
       <Text style={styles.title}>Select Payment Method</Text>
 
       {methods.map((m) => (
@@ -39,7 +41,7 @@ export default function PaymentScreen({ navigation, route }: Props) {
 
       {method === "Credit Card" && (
         <View style={{ marginTop: 20 }}>
-          {[
+          {[ 
             { key: "holder", placeholder: "Card Holder Name" },
             { key: "number", placeholder: "Card Number" },
             { key: "expiry", placeholder: "Expiry Date (MM/YY)" },

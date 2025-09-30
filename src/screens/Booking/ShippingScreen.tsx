@@ -39,7 +39,9 @@ export default function ShippingScreen({ navigation, route }: Props) {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-        <StepHeader current={1} />
+        {/* StepHeader with back button now */}
+        <StepHeader current={1} showBack />
+
         <Text style={styles.title}>Enter Your Details</Text>
 
         {[
