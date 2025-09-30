@@ -5,6 +5,7 @@ import PaymentScreen from "./PaymentScreen";
 import ReviewScreen from "./ReviewScreen";
 import SuccessScreen from "./SuccessScreen";
 
+// ✅ Booking flow navigator params
 export type BookingStackParamList = {
   Shipping: { car: any };
   Payment: { car: any; formData: any };
