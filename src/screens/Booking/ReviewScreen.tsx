@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { BookingStackParamList } from "./BookingStack";
 import { styles } from "./styles";
+import StepHeader from "../../components/StepHeader";
 
 type Props = NativeStackScreenProps<BookingStackParamList, "Review">;
 
@@ -10,15 +11,17 @@ export default function ReviewScreen({ navigation, route }: Props) {
   const { car, formData, payment } = route.params;
 
   const total = car.price + 9; // mock insurance
+
   return (
     <View style={styles.container}>
+      <StepHeader current={3} />
       <Text style={styles.title}>Review Order</Text>
 
       <View style={styles.card}>
-        <Image source={{ uri: car.image }} style={{ width: "100%", height: 120, borderRadius: 8 }} />
+        <Image source={{ uri: car.image }} style={{ width: "100%", height: 140, borderRadius: 12 }} />
         <Text style={styles.carTitle}>{car.name}</Text>
-        <Text>Price per day: ${car.price}</Text>
-        <Text>Insurance: $9</Text>
+        <Text style={{ color: "#6B7280" }}>Price per day: ${car.price}</Text>
+        <Text style={{ color: "#6B7280" }}>Insurance: $9</Text>
       </View>
 
       <View style={styles.summary}>
