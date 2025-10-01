@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRoute, NavigatorScreenParams, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"; 
 
 // 👇 adjust this path to where your BookingStack file lives
 import type { BookingStackParamList } from "../Booking/BookingStack";
@@ -41,6 +41,7 @@ function mapRowToDetails(row: CarRow): CarDetails {
 
 
 type RootStackParamList = {
+    BookingFlow: { car: CarDetails };
     BookingStack: NavigatorScreenParams<BookingStackParamList>;
 
 };
@@ -196,10 +197,7 @@ export default function CarDetailsScreen() {
                 {/* BOOK: Navigate to BookingStack -> Shipping with the car */}
                 <Pressable
                     onPress={() =>
-                        navigation.navigate("BookingStack", {
-                            screen: "Shipping",
-                            params: { car },
-                        })
+                        navigation.navigate("BookingFlow", { car })
                     }
                     style={styles.bookBtn}
                 >
