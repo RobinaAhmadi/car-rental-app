@@ -4,7 +4,7 @@ import {
     SafeAreaView, View, Text, Image, Pressable, FlatList,
     ListRenderItemInfo, ScrollView, ActivityIndicator, Platform, Alert
 } from "react-native";
-import axios from "axios";
+import axios from 'axios';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRoute, NavigatorScreenParams, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -12,7 +12,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 // 👇 adjust this path to where your BookingStack file lives
 import type { BookingStackParamList } from "../Booking/BookingStack";
 
-import { CarDetails, CarFeature } from "./types";
+import {CarDetails, CarFeature, CarRow} from "./types";
 import { styles, rowStyles, IMAGE_W } from "./styles";
 
 type RouteParams = { carId: string };
@@ -20,18 +20,7 @@ type RouteParams = { carId: string };
 const API_BASE =
     Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
 
-// --- matches your backend row shape ---
-type CarRow = {
-    id: number;
-    name: string;
-    type: string;
-    image: string;
-    rating: number;
-    location: string;
-    price: number;
-    transmission: string;
-    fuel?: string;
-};
+
 
 // --- map DB row -> your UI model ---
 function mapRowToDetails(row: CarRow): CarDetails {
@@ -50,13 +39,10 @@ function mapRowToDetails(row: CarRow): CarDetails {
     };
 }
 
-/** -------- Navigation typing (root that contains BookingStack) --------
- * If your root navigator registers <Screen name="BookingStack" component={BookingStack} />,
- * we type it like this so we can navigate with { screen, params }.
- */
+
 type RootStackParamList = {
     BookingStack: NavigatorScreenParams<BookingStackParamList>;
-    // ...other root screens if you have them
+
 };
 type RootNav = NativeStackNavigationProp<RootStackParamList>;
 

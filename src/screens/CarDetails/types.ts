@@ -22,3 +22,14 @@ export type CarDetails = {
     horsepower?: number;
   };
 };
+export type CarRow = {
+  id: number;
+  name: string;
+  type: string;
+  image: string;
+  rating: number;
+  location: string;
+  price: number;
+  transmission: string;
+  fuel?: string;
+};
