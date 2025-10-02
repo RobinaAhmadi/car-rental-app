@@ -2,9 +2,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
     SafeAreaView, View, Text, Image, Pressable, FlatList,
-    ListRenderItemInfo, ScrollView, ActivityIndicator, Platform, Alert
+    ListRenderItemInfo, ScrollView, ActivityIndicator, Alert
 } from "react-native";
-import axios from 'axios';
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRoute, NavigatorScreenParams, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"; 
@@ -14,11 +13,9 @@ import type { BookingStackParamList } from "../Booking/BookingStack";
 
 import {CarDetails, CarFeature, CarRow} from "./types";
 import { styles, rowStyles, IMAGE_W } from "./styles";
+import { apiClient, API_ENDPOINTS } from "../../services/ApiClient";
 
 type RouteParams = { carId: string };
-
-const API_BASE =
-    Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
 
 
 
@@ -60,7 +57,7 @@ export default function CarDetailsScreen() {
     useEffect(() => {
         (async () => {
             try {
-                const res = await axios.get<CarRow>(`${API_BASE}/cars/${params.carId}`);
+                const res = await apiClient.get<CarRow>(API_ENDPOINTS.cars.detail(params.carId));
                 setCar(mapRowToDetails(res.data));
             } catch (e: any) {
                 Alert.alert("Error", e?.message ?? "Failed to load car");

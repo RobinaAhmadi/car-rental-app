@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, FlatList, ActivityIndicator, Platform, Alert } from 'react-native';
-import axios from 'axios';
+import { SafeAreaView, FlatList, ActivityIndicator, Alert } from 'react-native';
 import SearchBar from '../../components/SearchComponent/SearchBar';
 import Filters from '../../components/FilterComponent/Filters';
 import LocationCard from '../../components/CarCardComponent/CarCard';
@@ -10,8 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../navigation/types';
 
-const API_BASE =
-    Platform.OS === 'android' ? 'http://10.0.2.2:3000' : 'http://localhost:3000';
+import { apiClient, API_ENDPOINTS } from '../../services/ApiClient';
 
 export default function MainScreen() {
     const [items, setItems] = useState<CardItem[]>([]);
@@ -22,12 +20,12 @@ export default function MainScreen() {
     useEffect(() => {
         (async () => {
             try {
-                const res = await axios.get<CarRow[]>(`${API_BASE}/cars`);
-                const mapped: CardItem[] = res.data.map((car) => ({
+                const res = await apiClient.get<CarRow[]>(API_ENDPOINTS.cars.list);
+                const mapped: CardItem[] = res.data.map((car: CarRow) => ({
                     id: String(car.id),
                     title: car.name,
                     subtitle: `${car.type} • ${car.transmission}`,
-                    rating: `${car.rating.toFixed(1)} ⭐`,
+                    rating: `${car.rating.toFixed(1)} `,
                     distance: car.location,
                     price: `$${car.price}`,
                     image: car.image,
