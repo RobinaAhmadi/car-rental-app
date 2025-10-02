@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, FlatList, ActivityIndicator, Alert } from 'react-native';
+import {
+    SafeAreaView,
+    FlatList,
+    ActivityIndicator,
+    Alert,
+    View,
+} from 'react-native';
 import SearchBar from '../../components/SearchComponent/SearchBar';
 import Filters from '../../components/FilterComponent/Filters';
 import LocationCard from '../../components/CarCardComponent/CarCard';
@@ -56,12 +62,18 @@ export default function MainScreen() {
             <FlatList
                 data={items}
                 keyExtractor={(item) => item.id}
-                contentContainerStyle={styles.list}
+                numColumns={2} // << makes it symmetric grid
+                contentContainerStyle={styles.gridContent}
+                columnWrapperStyle={styles.gridRow}
                 renderItem={({ item }) => (
-                    <LocationCard
-                        {...item}
-                        onSelect={(id) => navigation.navigate('CarDetails', { carId: id })}
-                    />
+                    <View style={styles.cardWrap}>
+                        <LocationCard
+                            {...item}
+                            onSelect={(id) =>
+                                navigation.navigate('CarDetails', { carId: id })
+                            }
+                        />
+                    </View>
                 )}
             />
         </SafeAreaView>
