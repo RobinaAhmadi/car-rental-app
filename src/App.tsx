@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import MainPageScreen from "./screens/MainPageScreen/MainPageScreen";
 import CarDetailsScreen from "./screens/CarDetails/CarDetailsScreen";
-import BookingStack from "./screens/Booking/BookingStack"; // 👈 add this
+import BookingStack from "./screens/Booking/BookingStack";
 import HeaderActions from "./components/HeaderComponent/HeaderActions";
 import Marketing from "./screens/Marketing";
 import BookingFlow from "./screens/BookingFlow";
@@ -28,13 +28,7 @@ export default function App() {
                 <Stack.Screen name="MainPage" component={MainPageScreen} options={{ title: "MainPage" }} />
                 <Stack.Screen name="CarDetails" component={CarDetailsScreen} options={{ title: "Car Details" }} />
                 <Stack.Screen name="BookingFlow" component={BookingFlow} options={{ headerShown: false, title: "Booking Flow" }} />
-
-                {/* 👇 REGISTER THE NESTED STACK */}
-                <Stack.Screen
-                    name="BookingStack"
-                    component={BookingStack}
-                    options={{ headerShown: false }}
-                />
+                <Stack.Screen name="BookingStack" component={BookingStack} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

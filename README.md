@@ -1,5 +1,7 @@
 # 🚗 Car Rental App
 
+Go to ApiClient.ts and change to your ipv4 address
+
 This project is a **React Native mobile application** for a car rental system.  
 We follow a **modular folder architecture** to keep the code clean, scalable, and easy to collaborate on.  
 
