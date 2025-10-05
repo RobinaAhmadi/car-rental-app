@@ -9,7 +9,7 @@ type Props = NativeStackScreenProps<BookingStackParamList, "Review">;
 
 export default function ReviewScreen({ navigation, route }: Props) {
   const { car, payment } = route.params;
-  const total = car.price + 9;
+  const total = car.pricePerDay + 9;
 
   return (
     <View style={styles.container}>
@@ -20,16 +20,17 @@ export default function ReviewScreen({ navigation, route }: Props) {
 
       <View style={styles.card}>
         <Image
-          source={{ uri: car.image }}
+          source={{ uri: car.images[0] }}
           style={{ width: "100%", height: 140, borderRadius: 12 }}
+          resizeMode="cover"
         />
         <Text style={styles.carTitle}>{car.name}</Text>
-        <Text style={{ color: "#6B7280", marginTop: 4 }}>Price per day: ${car.price}</Text>
+        <Text style={{ color: "#6B7280", marginTop: 4 }}>Price per day: ${car.pricePerDay}</Text>
         <Text style={{ color: "#6B7280" }}>Insurance: $9</Text>
       </View>
 
       <View style={styles.summary}>
-        <Text>Total: ${car.price}</Text>
+        <Text>Total: ${car.pricePerDay}</Text>
         <Text>Insurance: $9</Text>
         <Text style={styles.subtotal}>Subtotal: ${total}</Text>
       </View>

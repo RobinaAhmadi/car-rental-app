@@ -117,4 +117,11 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
   modalItemText: { fontSize: 14, color: "#111827" },
+
+  datePickerContainer: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    marginVertical: 8,
+  },
 });

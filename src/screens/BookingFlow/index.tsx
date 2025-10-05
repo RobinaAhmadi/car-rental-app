@@ -16,43 +16,8 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute, NavigatorScreenParams } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles, IMAGE_W } from "./styles";
+import type { CarDetails, BookingStackParamList, ActivePicker, RouteParams } from "./types";
 
-export type CarFeature =
-  | "Seats"
-  | "Hybrid"
-  | "AirCondition"
-  | "CarPlay"
-  | "Bluetooth"
-  | "Radio";
-
-export type CarDetails = {
-  id: string;
-  name: string;
-  pricePerDay: number;
-  images: string[];
-  features: CarFeature[];
-  specs: {
-    transmission: "Automatic" | "Manual";
-    fuel: "Petrol" | "Diesel" | "Hybrid" | "Electric";
-    doors: number;
-    luggage: number;
-    mpg?: number;
-    horsepower?: number;
-  };
-};
-
-export type BookingStackParamList = {
-  BookingFlow: { car: CarDetails };
-  Shipping: {
-    car: CarDetails;
-    booking: {
-      pickupLocation: string;
-      dropoffLocation: string;
-      pickupDate: string;  
-      dropoffDate: string; 
-    };
-  };
-};
 type RootStackParamList = {
   BookingStack: NavigatorScreenParams<BookingStackParamList>;
 };
@@ -68,10 +33,6 @@ const prettyDate = (d: Date | null) => {
   const yyyy = d.getFullYear();
   return `${dd}.${mm}.${yyyy}`;
 };
-
-type RouteParams = { car: CarDetails };
-
-type ActivePicker = "pickup" | "dropoff" | null;
 
 export default function BookingFlowScreen() {
   const { params } = useRoute() as { params: RouteParams };
@@ -316,13 +277,18 @@ export default function BookingFlowScreen() {
             {activePicker === "pickup" ? "Pick Up date" : "Drop off date"}
           </Text>
 
-          <DateTimePicker
-            value={tempDate}
-            mode="date"
-            display={Platform.OS === "ios" ? "inline" : "calendar"}
-            onChange={(_, d) => d && setTempDate(d)}
-            minimumDate={activePicker === "dropoff" ? (pickupDate ?? undefined) : undefined}
-          />
+          <View style={styles.datePickerContainer}>
+            <DateTimePicker
+              value={tempDate}
+              mode="date"
+              display={Platform.OS === "ios" ? "inline" : "calendar"}
+              onChange={(_, d) => d && setTempDate(d)}
+              minimumDate={activePicker === "dropoff" ? (pickupDate ?? undefined) : undefined}
+              textColor="#000000"
+              accentColor="#2E71FF"
+              themeVariant="light"
+            />
+          </View>
 
           <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12, marginTop: 12 }}>
             <Pressable onPress={closePicker} style={[styles.bookBtn, { backgroundColor: "#e5e7eb" }]}>

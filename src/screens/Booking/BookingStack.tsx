@@ -4,11 +4,20 @@ import ShippingScreen from "./ShippingScreen";
 import PaymentScreen from "./PaymentScreen";
 import ReviewScreen from "./ReviewScreen";
 import SuccessScreen from "./SuccessScreen";
+import type { CarDetails } from "../BookingFlow/types";
 
 export type BookingStackParamList = {
-  Shipping: { car: any };
-  Payment: { car: any; formData: any };
-  Review: { car: any; formData: any; payment: any };
+  Shipping: { 
+    car: CarDetails;
+    booking: {
+      pickupLocation: string;
+      dropoffLocation: string;
+      pickupDate: string;  
+      dropoffDate: string; 
+    };
+  };
+  Payment: { car: CarDetails; formData: any };
+  Review: { car: CarDetails; formData: any; payment: any };
   Success: undefined;
 };
 
