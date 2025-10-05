@@ -8,6 +8,5 @@ export type RootStackParamList = {
   MainPage: undefined;
   CarDetails: { carId: string };
   BookingFlow: { car: CarDetails };
-  // 👇 Add this line so "BookingStack" is a valid route name
   BookingStack: NavigatorScreenParams<BookingStackParamList>;
 };

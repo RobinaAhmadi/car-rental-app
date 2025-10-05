@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { styles } from "./styles"; // Importer styles fra separat fil
+import { styles } from "./styles"; 
 
 export default function Filters() {
     return (

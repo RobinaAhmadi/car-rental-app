@@ -1,4 +1,4 @@
-// components/CarCardComponent/CarCard.tsx
+
 import React from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { styles } from './styles';

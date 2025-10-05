@@ -1,4 +1,3 @@
-// screens/CarDetails/types.ts
 export type CarFeature =
     | "Seats"
     | "Hybrid"

@@ -1,4 +1,4 @@
-// screens/CarDetails/CarDetailsScreen.tsx
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
     SafeAreaView, View, Text, Image, Pressable, FlatList,
@@ -7,25 +7,19 @@ import {
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRoute, NavigatorScreenParams, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"; 
-
-// 👇 adjust this path to where your BookingStack file lives
 import type { BookingStackParamList } from "../Booking/BookingStack";
-
 import {CarDetails, CarFeature, CarRow} from "./types";
 import { styles, rowStyles, IMAGE_W } from "./styles";
 import { apiClient, API_ENDPOINTS } from "../../services/ApiClient";
 
 type RouteParams = { carId: string };
 
-
-
-// --- map DB row -> your UI model ---
 function mapRowToDetails(row: CarRow): CarDetails {
     return {
         id: String(row.id),
         name: row.name,
         pricePerDay: row.price,
-        images: [row.image], // turn single URL into array for carousel
+        images: [row.image], // In real app, there would be multiple images
         features: ["Seats","Bluetooth","Hybrid","Radio","CarPlay","AirCondition"] as CarFeature[],
         specs: {
             transmission: (row.transmission || "Automatic") as CarDetails["specs"]["transmission"],
@@ -35,7 +29,6 @@ function mapRowToDetails(row: CarRow): CarDetails {
         },
     };
 }
-
 
 type RootStackParamList = {
     BookingFlow: { car: CarDetails };
@@ -172,7 +165,7 @@ export default function CarDetailsScreen() {
                     ))}
                 </View>
 
-                {/* Toggle details */}
+            
                 <Pressable onPress={() => setExpanded(s => !s)} style={styles.detailsBtn}>
                     <Text style={styles.detailsBtnText}>View More Details</Text>
                 </Pressable>
@@ -191,7 +184,7 @@ export default function CarDetailsScreen() {
                     </View>
                 )}
 
-                {/* BOOK: Navigate to BookingStack -> Shipping with the car */}
+                
                 <Pressable
                     onPress={() =>
                         navigation.navigate("BookingFlow", { car })
