@@ -73,6 +73,27 @@ export default function BookingFlowScreen() {
     closePicker();
   };
 
+  // Håndter date picker change - forskelligt for Android og iOS
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    if (Platform.OS === 'android') {
+      // På Android lukker date picker automatisk og vi skal håndtere valget med det samme
+      if (event.type === 'set' && selectedDate) {
+        if (activePicker === "pickup") {
+          setPickupDate(selectedDate);
+          if (dropoffDate && dropoffDate < selectedDate) setDropoffDate(null);
+        } else if (activePicker === "dropoff") {
+          setDropoffDate(selectedDate);
+        }
+      }
+      closePicker();
+    } else {
+      // På iOS opdaterer vi kun temp date
+      if (selectedDate) {
+        setTempDate(selectedDate);
+      }
+    }
+  };
+
   const canGoLeft = index > 0;
   const canGoRight = (car?.images.length ?? 0) - 1 > index;
 
@@ -270,36 +291,50 @@ export default function BookingFlowScreen() {
         </View>
       </Modal>
 
-      <Modal visible={!!activePicker} transparent animationType="fade">
-        <Pressable style={styles.modalBackdrop} onPress={closePicker} />
-        <View style={[styles.modalSheet, { paddingBottom: 24 }]}>
-          <Text style={styles.modalTitle}>
-            {activePicker === "pickup" ? "Pick Up date" : "Drop off date"}
-          </Text>
 
-          <View style={styles.datePickerContainer}>
-            <DateTimePicker
-              value={tempDate}
-              mode="date"
-              display={Platform.OS === "ios" ? "inline" : "calendar"}
-              onChange={(_, d) => d && setTempDate(d)}
-              minimumDate={activePicker === "dropoff" ? (pickupDate ?? undefined) : undefined}
-              textColor="#000000"
-              accentColor="#2E71FF"
-              themeVariant="light"
-            />
-          </View>
+      {Platform.OS === 'ios' && (
+        <Modal visible={!!activePicker} transparent animationType="fade">
+          <Pressable style={styles.modalBackdrop} onPress={closePicker} />
+          <View style={[styles.modalSheet, { paddingBottom: 24 }]}>
+            <Text style={styles.modalTitle}>
+              {activePicker === "pickup" ? "Pick Up date" : "Drop off date"}
+            </Text>
 
-          <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12, marginTop: 12 }}>
-            <Pressable onPress={closePicker} style={[styles.bookBtn, { backgroundColor: "#e5e7eb" }]}>
-              <Text style={[styles.bookText, { color: "#111827" }]}>Cancel</Text>
-            </Pressable>
-            <Pressable onPress={confirmPicker} style={styles.bookBtn}>
-              <Text style={styles.bookText}>Done</Text>
-            </Pressable>
+            <View style={styles.datePickerContainer}>
+              <DateTimePicker
+                value={tempDate}
+                mode="date"
+                display="inline"
+                onChange={handleDateChange}
+                minimumDate={activePicker === "dropoff" ? (pickupDate ?? undefined) : undefined}
+                textColor="#000000"
+                accentColor="#2E71FF"
+                themeVariant="light"
+              />
+            </View>
+
+            <View style={{ flexDirection: "row", justifyContent: "flex-end", gap: 12, marginTop: 12 }}>
+              <Pressable onPress={closePicker} style={[styles.bookBtn, { backgroundColor: "#e5e7eb" }]}>
+                <Text style={[styles.bookText, { color: "#111827" }]}>Cancel</Text>
+              </Pressable>
+              <Pressable onPress={confirmPicker} style={styles.bookBtn}>
+                <Text style={styles.bookText}>Done</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      )}
+
+
+      {Platform.OS === 'android' && !!activePicker && (
+        <DateTimePicker
+          value={tempDate}
+          mode="date"
+          display="calendar"
+          onChange={handleDateChange}
+          minimumDate={activePicker === "dropoff" ? (pickupDate ?? undefined) : undefined}
+        />
+      )}
     </SafeAreaView>
   );
 }
